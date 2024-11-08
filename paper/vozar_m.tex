@@ -227,8 +227,41 @@ optimizers.
   architecture.}
 \end{figure}
 
-\section{Depth and Learning Rate of RN variants exploration}
+We achieved further improvement of Test accuraccy. However, with the
+individual runs getting more and more similar encouraged us to change
+plots to linear scale.
+
+Results from comparison of weight\_decay values give a slight hint
+of improved regularization.
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth, trim={0, 3.5cm, 0, 0}, clip]{../logsRN.png}
+  \caption{Closer examination of RN architecture variants.}
+\end{figure}
+
+In the following run, we also examined Tanh and Sigmoid together with LeakyReLU with the same
+set of configurations. We further examined different 
+weight\_decay values with expectation of better regularization.
+This was not observed. We prematurely stopped the run after 50 epochs,
+as we identified overfitting even in worse performing configurations.
+
+For a few exploratory runs, we decided to stick to RN16, as for reducing
+number of efficient LR values. 
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth, trim={0, 3.5cm, 0, 0}, clip]{../logsRN16_0.png}
+  \caption{Even closer examination of RN architecture variants.}
+\end{figure}
+
+\newpage
+
+\section{Regulization and data augmentation, activation functions}
 \sectionrule
+
+In effort to avoid, or at least reduce overfitting
+we implemented a heavy\_regularization option
+for data, applying more transformations on the inputs. weight\_regularization
+does not seem to have the desired effect, which has not deterred s from exploring it further.
 
 \end{document}
 
