@@ -4,7 +4,14 @@ from termcolor import cprint
 
 import torch
 from torch import nn
+from __train_loop_functions import  (
+    accuracy, AverageMeter, step_train
+)
+    
 
+from configs.configRR4 import get_configsRR4
+from configs.configRR3 import get_configsRR3
+from configs.configRR2 import get_configsRR2
 from configs.configRR1 import get_configsRR1
 from configs.configRR0 import get_configsRR0
 from configs.configRN4 import get_configsRN4
@@ -15,7 +22,7 @@ from configs.configRes04 import get_configsRes04
 from configs.configDense import get_configsDense
 from configs.configConv import get_configsConv
 from log2png import log2png
-from data import get_split_dls
+from data_augmented import get_split_dls
 
 if torch.cuda.is_available():
     DEVICE = "cuda"
@@ -40,8 +47,9 @@ HEAVY_REGULARIZATION = True
 
 LINX = True
 LINY = True
+SAVE = True
 
-configurations = get_configsRR1() ###########################################
+configurations = get_configsRR4() ###########################################
 
 [
     print(cfg.name) 
@@ -102,26 +110,23 @@ def main():
 
     for epoch in range(MAX_EPOCHS):
         cprint(f'Epoch: {epoch:>3}', color='blue')
-        ### Train steps
-        correct = [0]*len(nets)
-        total = [0]*len(nets)
+        # ### Train steps
+        # correct = [0]*len(nets)
+        # total = [0]*len(nets)
+        batch_time = AverageMeter()
+        data_time = AverageMeter()
+        losses = AverageMeter()
+        top1 = AverageMeter()
+        
         for step, (x, y) in tqdm.tqdm(enumerate(train_loader), total=batches_train):
             for it, (net, opt) in enumerate(zip(nets, opts)):
-                x = x.to(DEVICE, dtype=torch.float32) 
-                y = y.to(DEVICE)               
-                                
-                xi = net(x)
-                loss = criterion(xi, y)
-                loss.backward()
-                torch.nn.utils.clip_grad_norm_(net.parameters(), max_norm=1, norm_type=2)
-                opt.step()
                 
-                loss_t[it] += loss.item()
-                
-                _, predicted = xi.max(1)
-                total[it] += y.size(0)
-                correct[it] += predicted.eq(y).sum().item()
-                
+               step_train(
+                   step, x, y, nets, opts, criterion, batches_train, DEVICE,
+                   loss_v, tacc_log
+               )
+               
+            # Logger log 
             if (step+1)%every_n_steps_train==0:
                 for it in range(len(nets)):
                     tstep_log[it].append(epoch+step/len(train_loader))
@@ -147,6 +152,9 @@ def main():
                     _, predicted = xi.max(1)
                     total[it] += y.size(0)
                     correct[it] += predicted.eq(y).sum().item()
+                    
+                    correct = accuracy(xi.data, y)[0]
+                    
                 net.train()
                 
             ### Primitive logging
@@ -174,6 +182,22 @@ def main():
             linx=LINX,
             liny=LINY,
         )
+        
+        if SAVE:
+            for net, opt, name in zip(nets, opts, [cfg.name for cfg in configurations]):
+                try:
+                    _ = os.listdir(os.path.join('.', 'ckpt', name))
+                except:
+                    os.mkdir(os.path.join('.', 'ckpt', name))
+                torch.save(
+                    {
+                    'epoch': epoch,
+                    'model_state_dict': net.state_dict(),
+                    'optimizer_state_dict': opt.state_dict(),
+                    'loss': loss,
+                    }, 
+                    os.path.join('.', 'ckpt', name, f'{epoch}.pt')
+                )
             
 if __name__=="__main__":
     main()

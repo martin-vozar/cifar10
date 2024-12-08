@@ -22,11 +22,17 @@ def log2png(
     logs_vacc,
     logs_vloss,
     max_epoch,
-    lin=False,
+    linx=False,
+    liny=False,
 ):
     
-    colors1 = plt.cm.hsv(np.linspace(0., 1., len(logs_names), endpoint=True))
-    colors2 = plt.cm.plasma(np.linspace(0., 0.8, len(logs_names), endpoint=True))
+    # print(logs_names)
+    
+    # colors1 = plt.cm.hsv(np.linspace(0., 1., len(logs_names), endpoint=True))
+    # colors2 = plt.cm.plasma(np.linspace(0., 0.8, len(logs_names), endpoint=True))
+    
+    colors1 = plt.cm.hsv(np.linspace(0., 1., 8, endpoint=True))
+    colors2 = plt.cm.plasma(np.linspace(0., 0.8, 8, endpoint=True))
 
     colors = np.vstack((colors1, colors2))
     mymap = clr.LinearSegmentedColormap.from_list('custom_map', colors)
@@ -47,8 +53,9 @@ def log2png(
     fig.suptitle(suptitle, fontsize=20)
 
     for it, name in enumerate(logs_names):    
-        axs[0,0].scatter(logs_vstep[it], logs_tacc[it], color=colors[it], alpha=alpha, s=2, label=f'{name}')
-        axs[0,0].plot(logs_vstep[it], logs_tacc[it], color=colors[it], alpha=alpha, lw=1)
+        print(len(logs_tstep), len(logs_tstep[0]), ' hi')
+        axs[0,0].scatter(logs_tstep[it], logs_tacc[it], color=colors[it], alpha=alpha, s=2, label=f'{name}')
+        axs[0,0].plot(logs_tstep[it], logs_tacc[it], color=colors[it], alpha=alpha, lw=1)
         
         axs[0,1].scatter(logs_vstep[it], logs_vacc[it], color=colors[it], alpha=alpha, s=2)
         axs[0,1].plot(logs_vstep[it], logs_vacc[it], color=colors[it], alpha=alpha, lw=1)
@@ -62,8 +69,9 @@ def log2png(
     
     for it, ax in enumerate(axs.flatten()):
         ax.set_xlim(logs_tstep[0][0], max_epoch)
-        ax.set_xscale('log')
-        if not lin:
+        if not linx:
+            ax.set_xscale('log')
+        if not liny:
             ax.set_yscale('log')
 
         if it<2:
@@ -72,9 +80,10 @@ def log2png(
             y_offset = 0.022 * (y_max / y_min)
    
             ax.hlines(y=np.max(logs_vacc), xmin=logs_tstep[0][0], xmax=max_epoch, alpha=0.7, color='k', linestyle='-.')
-            ax.annotate(xy=(max_epoch/2, np.max(logs_vacc)*(1+y_offset)), text=f'{np.max(logs_vacc):.2f}')
+            ax.annotate(xy=(max_epoch/2, np.max(logs_vacc)-0.05), text=f'{np.max(logs_vacc):.2f}')
             ax.set_ylim(0.09, 1.1)
         else:
+            ax.set_yscale('log')
             y_min = np.min(logs_vloss)
             y_max = np.max(logs_vloss)
             y_offset = 0.022 * (y_max / y_min)

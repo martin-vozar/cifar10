@@ -1,2 +1,7 @@
+/ckpt/*
+/ckpt_f/*
+/ckpt_f2/*
+/ckpt_f3/*
+/ckpt_RCf4/*
 /data/*
 *.png

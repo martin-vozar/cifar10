@@ -3,9 +3,9 @@ from torch import nn
 from torch.nn import functional as F
 
 from models.ConvEncoder import ConvEncoder
-from models.ResBlock import ResBlock
+from models.RRBlock import RRBlock
 
-class RN(nn.Module):
+class RR(nn.Module):
     def __init__(
         self, 
         activation=nn.ReLU(), 
@@ -14,15 +14,15 @@ class RN(nn.Module):
         num_classes=10,
         num_blocks=4,
     ):
-        width = 16
         
-        super(RN, self).__init__()    
+        super(RR, self).__init__()    
         
+        self.width = 16
         
         self.drop = nn.Dropout2d(p=1/3)
         self.input = nn.Conv2d(
             in_channels=in_channels,
-            out_channels=width,
+            out_channels=self.width,
             kernel_size=1,
             stride=1,
             padding=0,
@@ -30,25 +30,26 @@ class RN(nn.Module):
         )
 
         self.blocks = nn.ModuleList(
-            [ResBlock(
-                in_channels=width, 
-                out_channels=width, 
+            [RRBlock(
+                in_channels=self.width, 
+                out_channels=self.width, 
                 activation=activation) 
              for _ in range(num_blocks)
             ]
         )
         
-        
-        self.encoder = ConvEncoder(in_channels=width, num_classes=num_classes, activation=activation)
+        self.encoder = ConvEncoder(in_channels=self.width, num_classes=num_classes, activation=activation)
 
     def forward(self, x):
         
-        x = self.drop(x) 
+        x = self.drop(x)  
+        z = x.clone()
+        
         x = self.input(x)
         
         for block in self.blocks:
-            x = block(x)
-        
+            x = block(torch.cat([x, z], dim=1))
+            
         x = self.encoder(x)
         
         return x

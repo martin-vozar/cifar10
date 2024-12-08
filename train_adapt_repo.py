@@ -1,19 +1,19 @@
 import os
 import tqdm
 from termcolor import cprint
+from copy import deepcopy
+
+from __train_loop_functions import accuracy, get_n_params
+
+import torch.utils.data
+import torchvision.transforms as transforms
+import torchvision.datasets as datasets
 
 import torch
 from torch import nn
 
-from configs.configRR1 import get_configsRR1
-from configs.configRR0 import get_configsRR0
-from configs.configRN4 import get_configsRN4
-from configs.configRN3 import get_configsRN3
-from configs.configRN2 import get_configsRN2
-from configs.configRN import get_configsRN
-from configs.configRes04 import get_configsRes04
-from configs.configDense import get_configsDense
-from configs.configConv import get_configsConv
+from configs.configRRf4 import get_configsRRf4
+
 from log2png import log2png
 from data import get_split_dls
 
@@ -29,9 +29,9 @@ else:
 
 ###############################################################################
 
-MOMENTUM = 0.96
+MOMENTUM = 0.90
 
-MAX_EPOCHS = 100
+MAX_EPOCHS = 200
 BATCH_SIZE = 128
 NUM_WORKERS = 4
 DOWNLOAD = True
@@ -40,26 +40,60 @@ HEAVY_REGULARIZATION = True
 
 LINX = True
 LINY = True
-
-configurations = get_configsRR1() ###########################################
-
-[
-    print(cfg.name) 
-    for cfg in configurations
+LOAD = False
+SAVE = True
+LOAD_PATHS = [
+    './ckpt_f/RR-32_SGD_lr1.0e-01_wd0.0e+00_LeakyReLU/99.pt',
+    './ckpt_f/RR-32_AdamW_lr2.0e-03_wd0.0e+00_LeakyReLU/99.pt',
 ]
+
+configurations = get_configsRRf4() ############################################
 
 ###############################################################################
 
 def main():
-    train_loader, test_loader, classes = get_split_dls(
-        batch_size=BATCH_SIZE,
-        num_workers=NUM_WORKERS, 
-        download=DOWNLOAD, 
-        heavy_regularization=HEAVY_REGULARIZATION,
-    )
+    
+    MAX_EPOCHS = 200
+    BATCH_SIZE = 128
+    NUM_WORKERS = 4
+    DOWNLOAD = True
+
+    HEAVY_REGULARIZATION = True
+
+    LINX = True
+    LINY = True
+    LOAD = False
+    SAVE = True
+    
+    CUDNN = True
+    if CUDNN:
+        import torch.backends.cudnn as cudnn
+        cudnn.benchmark = True
+
+    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                     std=[0.229, 0.224, 0.225])
+    
+    train_loader = torch.utils.data.DataLoader(
+        datasets.CIFAR10(root='./data', train=True, transform=transforms.Compose([
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomCrop(32, 4),
+            transforms.ToTensor(),
+            normalize,
+        ]), download=True),
+        batch_size=BATCH_SIZE, shuffle=True,
+        num_workers=NUM_WORKERS, pin_memory=True)
+
+    test_loader = torch.utils.data.DataLoader(
+        datasets.CIFAR10(root='./data', train=False, transform=transforms.Compose([
+            transforms.ToTensor(),
+            normalize,
+        ])),
+        batch_size=128, shuffle=False,
+        num_workers=NUM_WORKERS, pin_memory=True)
+    
     batches_train = len(train_loader)
     batches_test = len(test_loader)
-    NUM_CLASSES = len(classes)
+    NUM_CLASSES = 10
     
     every_n_steps_train = len(train_loader) // 1
     if every_n_steps_train == 0:
@@ -70,10 +104,16 @@ def main():
         every_n_steps_test = 1
     
     criterion = nn.CrossEntropyLoss(reduction='mean')
+    scheduler = lambda opt: torch.optim.lr_scheduler.MultiStepLR(
+        optimizer=opt,
+        milestones=[100, 150], 
+        last_epoch= -1
+    )
     
     # Wrap as some ModelConfig__init__ method, logger object
     nets = []
     opts = []
+    schs = []
     loss_t = []
     loss_v = []
     tstep_log = []
@@ -82,15 +122,33 @@ def main():
     vstep_log = []
     vacc_log = []
     vloss_log = []
+    # for cfg, load_path in zip(configurations, LOAD_PATHS):
     for cfg in configurations:
+        # print(cfg.name.split('_')[0][:4], type(cfg.architecture))
+        load_path = LOAD_PATHS[0]
+        if LOAD:
+            checkpoint = torch.load(load_path, weights_only=True)
         if cfg.name.split('_')[0][:2]=='RN' or cfg.name.split('_')[0][:2]=='RR':
             nets.append(cfg.architecture(activation=cfg.activation, num_blocks=cfg.num_blocks, num_classes=NUM_CLASSES).to(DEVICE))
-        else:
+            if LOAD:
+                nets[-1].load_state_dict(checkpoint['model_state_dict'])
+        elif cfg.name.split('_')[0][:4]=='RCog':
+            nets.append(cfg.architecture().to(DEVICE))
+        else: # did not treat this case
             nets.append(cfg.architecture(activation=cfg.activation, num_classes=NUM_CLASSES).to(DEVICE))
-        if cfg.name.split('_')[1]=="SGDwM":
+
+        if cfg.name.split('_')[1]=="SGDwM": # did not treat this case
             opts.append(cfg.optimizer(nets[-1].parameters(), lr=cfg.lr, momentum=MOMENTUM, weight_decay=cfg.weight_decay))
+            if LOAD:    
+                opts[-1].load_state_dict(checkpoint['optimizer_state_dict'])
+            schs.append(scheduler(opts[-1]))
         else:
-            opts.append(cfg.optimizer(nets[-1].parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay))    
+            opts.append(cfg.optimizer(nets[-1].parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay))
+            # schs.append(scheduler(opts[-1]))
+            # opts[-1].load_state_dict(checkpoint['optimizer_state_dict']) # one optimizer is reset  
+
+        print(f'{cfg.name:<50}{get_n_params(nets[-1]):>6}') 
+            
         loss_t.append(0)
         loss_v.append(0)
         tstep_log.append([])
@@ -104,8 +162,8 @@ def main():
         cprint(f'Epoch: {epoch:>3}', color='blue')
         ### Train steps
         correct = [0]*len(nets)
-        total = [0]*len(nets)
         for step, (x, y) in tqdm.tqdm(enumerate(train_loader), total=batches_train):
+            # print(len(nets), len(opts), len(schs))
             for it, (net, opt) in enumerate(zip(nets, opts)):
                 x = x.to(DEVICE, dtype=torch.float32) 
                 y = y.to(DEVICE)               
@@ -118,19 +176,19 @@ def main():
                 
                 loss_t[it] += loss.item()
                 
-                _, predicted = xi.max(1)
-                total[it] += y.size(0)
-                correct[it] += predicted.eq(y).sum().item()
+                correct[it] += accuracy(xi.data, y)[0].detach().cpu()
+                
+                # _, predicted = xi.max(1)
+                # total[it] += y.size(0)
+                # correct[it] += predicted.eq(y).sum().item()
                 
             if (step+1)%every_n_steps_train==0:
                 for it in range(len(nets)):
                     tstep_log[it].append(epoch+step/len(train_loader))
                     tloss_log[it].append(loss_t[it]/every_n_steps_train)
                     loss_t[it] = 0
-                    tacc_log[it].append(correct[it]/total[it])
-                    correct[it] = 0
-                    total[it] = 0
-        
+                    tacc_log[it].append(correct[it]/batches_train/100)
+                    
         ### Test steps
         correct = [0]*len(nets)
         total = [0]*len(nets)                    
@@ -161,6 +219,21 @@ def main():
                         vacc_log[it].append(0)
                     correct[it] = 0
                     total[it] = 0
+         
+        for sch in schs:
+            sch.step()
+          
+        # print(len(tstep_log), len(tstep_log[0]))
+          
+        # print(len(vstep_log), len(vstep_log[0])) 
+        
+        # print(len(tacc_log), len(tacc_log[0]))  
+        
+        # print(len(vacc_log), len(vacc_log[0]))  
+        
+        # print(len(tloss_log), len(tloss_log[0]))  
+        
+        # print(len(vloss_log), len(vloss_log[0]))  
                    
         log2png(
             logs_names=[cfg.name for cfg in configurations],
@@ -174,6 +247,22 @@ def main():
             linx=LINX,
             liny=LINY,
         )
+        
+        if SAVE:
+            for net, opt, name in zip(nets, opts, [cfg.name for cfg in configurations]):
+                try:
+                    _ = os.listdir(os.path.join('.', 'ckpt_RCf4', name))
+                except:
+                    os.mkdir(os.path.join('.', 'ckpt_RCf4', name))
+                torch.save(
+                    {
+                    'epoch': epoch,
+                    'model_state_dict': net.state_dict(),
+                    'optimizer_state_dict': opt.state_dict(),
+                    'loss': loss,
+                    }, 
+                    os.path.join('.', 'ckpt_RCf4', name, f'{epoch}.pt')
+                )
             
 if __name__=="__main__":
     main()
