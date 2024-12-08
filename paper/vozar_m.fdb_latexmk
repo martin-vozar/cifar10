@@ -1,18 +1,22 @@
 # Fdb version 4
-["bibtex vozar_m"] 1731004698 "vozar_m.aux" "vozar_m.bbl" "vozar_m" 1731004703 0
-  "./vozar_m-blx.bib" 1731004702 341 84e3eff6be5e6e50b32b47fbf2392f68 ""
+["bibtex vozar_m"] 1732352792 "vozar_m.aux" "vozar_m.bbl" "vozar_m" 1732352796 0
+  "./vozar_m-blx.bib" 1732352795 341 84e3eff6be5e6e50b32b47fbf2392f68 ""
   "c:/texlive/2022/texmf-dist/bibtex/bst/biblatex/biblatex.bst" 1669017207 65483 3b5a53ada692a06ce416d088de6a391b ""
-  "vozar_m.aux" 1731004702 2453 f7d45de100bc776ae8dbe3b8d7e5ec9b "pdflatex"
+  "vozar_m.aux" 1732352795 3543 0b13683a280a7da2d3d10e5fa69a1f1a "pdflatex"
   (generated)
   "vozar_m.bbl"
   "vozar_m.blg"
   (rewritten before read)
-["pdflatex"] 1731004699 "d:/.fmfi/__MGR/Mgr2/deep_learning_for_cv/HW1/paper/vozar_m.tex" "vozar_m.pdf" "vozar_m" 1731004703 0
+["pdflatex"] 1732352792 "d:/.fmfi/__MGR/Mgr2/deep_learning_for_cv/HW1/paper/vozar_m.tex" "vozar_m.pdf" "vozar_m" 1732352796 0
   "../logsConvE.png" 1730985052 216552 bb6e311b7bfd75475a25f45ef7692d60 ""
   "../logsDense.png" 1730985052 238251 c43a90639bc9456be112fe3c3ba6fdd4 ""
   "../logsRN-04.png" 1730985052 228891 6a3a346420043510d31d1e24feff8c81 ""
   "../logsRN.png" 1730986697 177002 c13b13fc78b869bc4d3772c73085f342 ""
   "../logsRN16_0.png" 1731003038 177548 d129fc1c22d44891fa5c4cb7e4e79bba ""
+  "../logsRN16_1.png" 1731092644 295015 17dbeda1da91aa50c03181cc598eb045 ""
+  "../logsRN16_2.png" 1731160319 258954 48bfd79dcf71944722a0641abe30b8be ""
+  "../logsRR_2.png" 1731934103 207430 00298a6e4f101020d12008a8faacc03c ""
+  "../logsRR_3.png" 1731934106 148183 68692fdae104b39eb6baf9145406d673 ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc" 1669022375 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1669023112 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2022/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm" 1669030301 4524 6bce29db5bc272ba5f332261583fee9c ""
@@ -35,6 +39,7 @@
   "c:/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1669021418 1116 933a60c408fc0a863a92debe84b2d294 ""
   "c:/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1669021418 1120 8b7d695260f3cff42e636090a8002094 ""
   "c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb" 1669016849 36741 0ee9e374ec3e30da87cdfb0ea3575226 ""
+  "c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1669016849 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb" 1669030302 44729 fea0975e20ec51c992338362f05f1146 ""
   "c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb" 1669030302 46026 687528a208fbfc1f00832bb96cccebbb ""
   "c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb" 1669030302 45458 504e2b06fa82109d168c7a0afb09e145 ""
@@ -126,12 +131,12 @@
   "c:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1669031298 4662777 6d30ebd1f2949ad7a3d8a3b5cd0d9f7d ""
   "c:/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1669031633 3063429 3eaeaf568da1ee6fe329793509b8d36b ""
   "c:/texlive/2022/texmf.cnf" 1669031275 713 e69b156964470283e0530f5060668171 ""
-  "d:/.fmfi/__MGR/Mgr2/deep_learning_for_cv/HW1/paper/vozar_m.tex" 1731004691 9342 190e04b71984c08a43a06a448dd81553 ""
-  "vozar_m.aux" 1731004702 2453 f7d45de100bc776ae8dbe3b8d7e5ec9b "pdflatex"
-  "vozar_m.bbl" 1731004699 513 205fa30ee4c093bb2bc4676324ab99fd "bibtex vozar_m"
-  "vozar_m.out" 1731004702 1083 3fd31279a5d6aaf77937eadd79e0b4e2 "pdflatex"
-  "vozar_m.run.xml" 1731004702 2518 efa659eced2d0d36fc2366521dd22383 "pdflatex"
-  "vozar_m.tex" 1731004691 9342 190e04b71984c08a43a06a448dd81553 ""
+  "d:/.fmfi/__MGR/Mgr2/deep_learning_for_cv/HW1/paper/vozar_m.tex" 1732352785 13643 68a467172b18d72b2fcece019d9228dd ""
+  "vozar_m.aux" 1732352795 3543 0b13683a280a7da2d3d10e5fa69a1f1a "pdflatex"
+  "vozar_m.bbl" 1732352792 513 205fa30ee4c093bb2bc4676324ab99fd "bibtex vozar_m"
+  "vozar_m.out" 1732352795 1257 31581115d25a8ff424e7d7a5a62bbcd7 "pdflatex"
+  "vozar_m.run.xml" 1732352795 2518 efa659eced2d0d36fc2366521dd22383 "pdflatex"
+  "vozar_m.tex" 1732352785 13643 68a467172b18d72b2fcece019d9228dd ""
   (generated)
   "vozar_m-blx.bib"
   "vozar_m.aux"
