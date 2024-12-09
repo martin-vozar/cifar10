@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.11.21)  23 NOV 2024 10:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.11.21)  9 DEC 2024 19:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -679,79 +679,106 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 12
  (c:/texlive/2022/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-<../logsDense.png, id=45, 650.43pt x 722.7pt>
+<../logsDense.png, id=49, 650.43pt x 722.7pt>
 File: ../logsDense.png Graphic file (type png)
 <use ../logsDense.png>
 Package pdftex.def Info: ../logsDense.png  used on input line 134.
 (pdftex.def)             Requested size: 483.69684pt x 463.39908pt.
  [2 <../logsDense.png>]
-<../logsConvE.png, id=55, 650.43pt x 722.7pt>
+<../logsConvE.png, id=59, 650.43pt x 722.7pt>
 File: ../logsConvE.png Graphic file (type png)
 <use ../logsConvE.png>
 Package pdftex.def Info: ../logsConvE.png  used on input line 162.
 (pdftex.def)             Requested size: 483.69684pt x 463.39908pt.
  [3 <../logsConvE.png>]
-<../logsRN-04.png, id=64, 650.43pt x 722.7pt>
+<../logsRN-04.png, id=68, 650.43pt x 722.7pt>
 File: ../logsRN-04.png Graphic file (type png)
 <use ../logsRN-04.png>
 Package pdftex.def Info: ../logsRN-04.png  used on input line 224.
 (pdftex.def)             Requested size: 483.69684pt x 463.39908pt.
  [4]
-<../logsRN.png, id=70, 650.43pt x 722.7pt>
+<../logsRN.png, id=74, 650.43pt x 722.7pt>
 File: ../logsRN.png Graphic file (type png)
 <use ../logsRN.png>
 Package pdftex.def Info: ../logsRN.png  used on input line 237.
 (pdftex.def)             Requested size: 483.69684pt x 463.39908pt.
  [5 <../logsRN-04.png>]
-<../logsRN16_0.png, id=79, 650.43pt x 722.7pt>
+<../logsRN16_0.png, id=83, 650.43pt x 722.7pt>
 File: ../logsRN16_0.png Graphic file (type png)
 <use ../logsRN16_0.png>
 Package pdftex.def Info: ../logsRN16_0.png  used on input line 252.
 (pdftex.def)             Requested size: 483.69684pt x 463.39908pt.
  [6 <../logsRN.png>]
-<../logsRN16_1.png, id=88, 650.43pt x 722.7pt>
+<../logsRN16_1.png, id=92, 650.43pt x 722.7pt>
 File: ../logsRN16_1.png Graphic file (type png)
 <use ../logsRN16_1.png>
 Package pdftex.def Info: ../logsRN16_1.png  used on input line 257.
 (pdftex.def)             Requested size: 483.69684pt x 463.39908pt.
  [7 <../logsRN16_0.png>] [8 <../logsRN16_1.png>]
-<../logsRN16_2.png, id=105, 650.43pt x 722.7pt>
+<../logsRN16_2.png, id=109, 650.43pt x 722.7pt>
 File: ../logsRN16_2.png Graphic file (type png)
 <use ../logsRN16_2.png>
 Package pdftex.def Info: ../logsRN16_2.png  used on input line 283.
 (pdftex.def)             Requested size: 483.69684pt x 463.39908pt.
  [9 <../logsRN16_2.png>]
-<../logsRR_2.png, id=114, 650.43pt x 722.7pt>
+<../logsRR_2.png, id=118, 650.43pt x 722.7pt>
 File: ../logsRR_2.png Graphic file (type png)
 <use ../logsRR_2.png>
-Package pdftex.def Info: ../logsRR_2.png  used on input line 341.
+Package pdftex.def Info: ../logsRR_2.png  used on input line 343.
 (pdftex.def)             Requested size: 483.69684pt x 463.39908pt.
  [10]
-<../logsRR_3.png, id=121, 650.43pt x 722.7pt>
+<../logsRR_3.png, id=125, 650.43pt x 722.7pt>
 File: ../logsRR_3.png Graphic file (type png)
 <use ../logsRR_3.png>
-Package pdftex.def Info: ../logsRR_3.png  used on input line 347.
+Package pdftex.def Info: ../logsRR_3.png  used on input line 349.
 (pdftex.def)             Requested size: 483.69684pt x 463.39908pt.
- [11 <../logsRR_2.png>] [12 <../logsRR_3.png>] (./vozar_m.aux)
+ [11 <../logsRR_2.png>]
+<../logsRR_4.png, id=134, 650.43pt x 722.7pt>
+File: ../logsRR_4.png Graphic file (type png)
+<use ../logsRR_4.png>
+Package pdftex.def Info: ../logsRR_4.png  used on input line 372.
+(pdftex.def)             Requested size: 483.69684pt x 463.39908pt.
+ [12 <../logsRR_3.png>]
+<../logsRRf00.png, id=143, 650.43pt x 722.7pt>
+File: ../logsRRf00.png Graphic file (type png)
+<use ../logsRRf00.png>
+Package pdftex.def Info: ../logsRRf00.png  used on input line 382.
+(pdftex.def)             Requested size: 483.69684pt x 463.39908pt.
+ [13 <../logsRR_4.png>]
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 392.
+ (c:/texlive/2022/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+Overfull \hbox (10.85837pt too wide) in paragraph at lines 391--394
+\T1/ptm/m/n/12 We man-aged to find a repo []$\T1/pcr/m/n/12 https : / / github . com / akamaster / pytorch _ resnet _ cifar10$[]
+ []
+
+[14 <../logsRRf00.png>]
+<../logsRRf4.png, id=162, 650.43pt x 722.7pt>
+File: ../logsRRf4.png Graphic file (type png)
+<use ../logsRRf4.png>
+Package pdftex.def Info: ../logsRRf4.png  used on input line 410.
+(pdftex.def)             Requested size: 483.69684pt x 463.39908pt.
+ [15 <../logsRRf4.png>] (./vozar_m.aux)
 Package rerunfilecheck Info: File `vozar_m.out' has not changed.
-(rerunfilecheck)             Checksum: 31581115D25A8FF424E7D7A5A62BBCD7;1257.
+(rerunfilecheck)             Checksum: 2A93FD95AA4A3E778929638AA3934E96;1418.
 Package logreq Info: Writing requests to 'vozar_m.run.xml'.
 \openout1 = `vozar_m.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 18704 strings out of 474971
- 328590 string characters out of 5780120
+ 18767 strings out of 474971
+ 329547 string characters out of 5780120
  879479 words of memory out of 5000000
- 39951 multiletter control sequences out of 15000+600000
- 495899 words of font info for 61 fonts, out of 8000000 for 9000
+ 39999 multiletter control sequences out of 15000+600000
+ 496520 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  69i,7n,79p,1954b,801s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on vozar_m.pdf (12 pages, 1650656 bytes).
+{c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on vozar_m.pdf (15 pages, 2027273 bytes).
 PDF statistics:
- 170 PDF objects out of 1000 (max. 8388607)
- 117 compressed objects within 2 object streams
- 30 named destinations out of 1000 (max. 500000)
- 164 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 212 PDF objects out of 1000 (max. 8388607)
+ 145 compressed objects within 2 object streams
+ 37 named destinations out of 1000 (max. 500000)
+ 205 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -316,15 +316,17 @@ heavily augmented dataset.
 \subsection{Pre-training with masks}
 
 In the following runs, we iteratively selected random masking
-with 4x4 granularitya and $p=0.5, \ p=0.7, \ p=0.9$ variants.
+pattern
+with 4x4 granularity and masking proportion $p=0.5, \ p=0.7, \ p=0.9$ variants.
 We implented them using using 
 \emph{torchvision.transforms.v2.Lambda}. The masks randomly
-zero out a portion of the image in all channels.
+zero out a portion of the image in all channels (similar to BlockDropout mechanism).
 
-The idea was to partially reproduce approach of Masked AutoEncoders.
+The idea was to partially reproduce approach of training Masked AutoEncoders.
 To reduce training time, as well as to stay focused on the
 task, we did not implement the Decoder, and remained using
-only the Encoder as previously.
+only the Encoder as previously. This is a very crude adaptation of
+the some parts of the principle, mostly tested out of curiosity.
 
 We also continued optimizing the learning rate and weight decay
 values. As the tested architectures are almost identical, we
@@ -352,8 +354,8 @@ down the range of efficient learning rate values.
 \subsection{Fine-Tuning}
 
 In the following runs, we train the best performing RR32
-variant (in terms of accuracy), together with a variant
-with no weight decay.
+configuration (in terms of accuracy), together with the same
+configuration modified to have no weight decay.
 
 In the first stage, we will train the model on heavily masked
 inputs, using $p=0.9$, with various granularity, 
@@ -361,8 +363,53 @@ $4x4, \ 2x2, \ 1x1$ blocks. (Using the $1x1$ block is
 comparable to nn.Dropout, with the difference of all the
 channels having the same pixels blocked).
 
-We regularly save the model state, and later fine-tune on
-RandomCrop augmentation.
+After 100 epochs, we further train with RandomCrop augmentation.
+We tested CosineAnnealing and CosineAnnealingWithWarmRestarts
+schedulers, with two 100 epoch trainings. We only show the later
+of those, as the main outcome is unsatisfactory.
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth, trim={0, 3.5cm, 0, 0}, clip]{../logsRR_4.png}
+  \caption{Training on $p=0.9$ mixed granularity masking.}
+\end{figure}
+
+It might be still worth mentioning, that the RR architecture
+managed to get 71\% accuracy 1 training on random 10\% of the
+input images. Tha accuracy there was lower, which we might call
+an overregularization.
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth, trim={0, 3.5cm, 0, 0}, clip]{../logsRRf00.png}
+  \caption{Second 100 epoch finetuning run.}
+\end{figure}
+
+The performance only caught up to some of the previous runs,
+even after taking three times as long. 
+
+\section{Repository Reproduction}
+
+We managed to find
+a repo \url{https://github.com/akamaster/pytorch_resnet_cifar10}
+claiming to have reproduced the original ResNet experiment.
+
+We took the model from the repository and tried adapting it to fit
+in the default initialization method (RC). 
+We also altered the data loading routine to in accord
+with the repository, and included MultiStepLR scheduler.
+We also implemented a variation of the adapapted architecury, switching
+order of BatchNorm and Con2d operations (RCi).
+
+Though we attempted to copy the architecture completely, it performed
+different to when it was initialized from the original code (RCog). It was
+not examined further, so it might have been an initialization specific issue.
+
+Even though the model from the repository had the best results, we failed
+to reproduce their results, hopefully due to a mundane error.
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth, trim={0, 3.5cm, 0, 0}, clip]{../logsRRf4.png}
+  \caption{Results of the }
+\end{figure}
 
 \end{document}
 
